@@ -29,7 +29,7 @@ module DeisWorkflow
     def whoami
       get('/v2/auth/whoami').parsed_response['username']
     end
-    
+
     def users_list
       get('/v2/users').parsed_response['results']
     end
@@ -104,7 +104,7 @@ module DeisWorkflow
     end
 
     ### App config methods
-    
+
     def config_list(app_name)
       get("#{app_path(app_name)}/config/").parsed_response['values']
     end
@@ -131,6 +131,28 @@ module DeisWorkflow
       }).success?
     end
 
+    def certs_create(name, certificate, private_key)
+      puts "X"
+      post("/v2/certs/", {
+        "name" => name,
+        "certificate" => certificate,
+        "key" => private_key
+      }).success?
+    end
+
+    def certs_delete(name)
+      delete("/v2/certs/#{name}").success?
+    end
+
+    def certs_domain_attach(name, domain)
+      post("/v2/certs/#{name}/domain/", {
+        "domain" => domain
+      }).success?
+    end
+
+    def certs_domain_detach(name, domain)
+      delete("/v2/certs/#{name}/domain/#{domain}/").success?
+    end
 
     private
 
