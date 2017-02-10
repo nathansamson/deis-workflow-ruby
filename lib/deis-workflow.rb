@@ -154,6 +154,21 @@ module DeisWorkflow
       delete("/v2/certs/#{name}/domain/#{domain}/").success?
     end
 
+    # App domain methods
+    def domains_list(app_name)
+      get("#{app_path(app_name)}/domains/").parsed_response['results']
+    end
+
+    def domains_add(app_name, domain)
+      post("#{app_path(app_name)}/domains/", {
+        domain: domain
+      }).success?
+    end
+
+    def domains_remove(app_name, domain)
+      delete("#{app_path(app_name)}/domains/#{domain}").success?
+    end
+
     private
 
     def app_path(app_name)
@@ -176,7 +191,7 @@ module DeisWorkflow
     end
 
     def delete(path)
-      HTTParty.post(
+      HTTParty.delete(
         "#{@controller_uri}#{path}",
         :headers => @headers
       )
