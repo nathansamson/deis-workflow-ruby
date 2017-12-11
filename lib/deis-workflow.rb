@@ -151,7 +151,7 @@ module DeisWorkflow
     end
 
     def certs_domain_detach(name, domain)
-      delete("/v2/certs/#{name}/domain/#{domain}/").success?
+      delete("/v2/certs/#{name}/domain/#{domain}").success?
     end
 
     # App domain methods
